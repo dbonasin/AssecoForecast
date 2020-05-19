@@ -1,0 +1,62 @@
+Summary
+
+Goal of this task is to implement mobile application which consumes OpenWeatherMap API: https://openweathermap.org/api
+Technical requirements
+
+Application must be developed using Android studio and should be compatible with Android 21 (Lollipop) and higher.
+
+Usage of dependency injection framework such as Dagger2 or Koin is optional.
+
+Key points for implementing this application are:
+
+·         Usage of well known libraries such as:
+
+·         Picasso or Glide (for image loading)
+
+·         Retrofit and OkHttp for implementing API clients
+
+·         GSON for JSON parsing
+
+·         Usage of MVVM architecture.
+
+·         Following "Clean architecture" guidelines.
+
+·         Usage of AndroidX components.
+
+All consumed API responses must be JSON based.
+Application design
+
+No design is given, but recommendation is to follow material guidelines → https://material.io
+Application features
+
+~Splash screen
+
+On application startup, splash screen should be shown for short time (1 - 1,5 second) → This screen can be implemented as fragment or activity.
+
+~Main Screen
+
+This screen must show relevant weather details for City of Zagreb. → This screen must be implemented as fragment.
+
+Relevant details are:
+
+·         Humidity
+
+·         Current temperature
+
+·         Min and max temperature
+
+·         Clouds
+
+~Forecast screen
+
+This screen must show weather forecast for City of Zagreb for following periods: → This screen must be implemented as fragment.
+
+·         48 hours
+
+·         7 days
+
+~Search screen
+
+This screen will be used to search predefined list of cities. Capitals of Europe can be used for this list. → This screen must be implemented as fragment.
+
+When city is clicked after searched for, weather details should be shown as on "Main Screen"
