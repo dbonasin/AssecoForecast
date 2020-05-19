@@ -1,0 +1,2 @@
+rootProject.name='AssecoForecast'
+include ':app'
