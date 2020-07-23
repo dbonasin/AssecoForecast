@@ -3,11 +3,9 @@ package hr.rma.db.assecoforecast
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.view.Window
-import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import java.lang.Exception
+import hr.rma.db.assecoforecast.R
 
 class SplashActivity : AppCompatActivity() {
     private val TIME_OUT:Long=10

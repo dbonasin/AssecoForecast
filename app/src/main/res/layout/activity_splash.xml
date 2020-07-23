@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".SplashActivity">
+    android:gravity="center">
+<!--    tools:context=".SplashActivity">-->
 
     <TextView
         android:id="@+id/app_name"
