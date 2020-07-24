@@ -4,7 +4,6 @@ import android.app.Application
 import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 
 //TODO napraviti te asyncTaskove da može razgovarati s bazom
 class ForecastRepository(application: Application) {
@@ -30,21 +29,11 @@ class ForecastRepository(application: Application) {
         InsertDailyAsyncTask(forecastDao).execute(daily)
     }
 
-    fun getCurrent(): LiveData<Current?>? {
-        return forecastDao?.getCurrentWeather();
-    }
-    fun getHourly(): LiveData<List<Hourly?>?>? {
-        return forecastDao?.getHourlyWeather();
-    }
-    fun getDaily(): LiveData<List<Daily?>?>?{
-        return forecastDao?.getDailyWeather();
-    }
-    fun isCurrentEmpty() : LiveData<Boolean>?{
-        val isEmpty : MutableLiveData<Boolean>? = null
-        Log.d("repository",forecastDao?.getCurrentweatherCount()?.value.toString())
-        isEmpty?.value = forecastDao?.getCurrentweatherCount()?.value == 0
-        return isEmpty;
-    }
+    fun getCurrent(): LiveData<Current?>? = forecastDao?.getCurrentWeather();
+
+    fun getHourly(): LiveData<List<Hourly?>?>? = forecastDao?.getHourlyWeather();
+
+    fun getDaily(): LiveData<List<Daily?>?>? = forecastDao?.getDailyWeather();
 //
     private class InsertCurrentAsyncTask (forecastDao: ForecastDao?) : AsyncTask<Current?, Void?, Void?>() {
         var forecastDao: ForecastDao? = null

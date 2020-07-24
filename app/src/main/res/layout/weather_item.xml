@@ -32,6 +32,8 @@
                 android:layout_width="@dimen/plant_item_image_height"
                 android:layout_height="@dimen/plant_item_image_height"
                 android:contentDescription="@string/weather_item_image"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="8dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toStartOf="@id/tv_humidity"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,33 +44,32 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginHorizontal="16dp"
                 android:gravity="center_horizontal"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
-                android:textColor="?attr/colorAccent"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@id/tv_day_hour" />
+                app:layout_constraintTop_toBottomOf="@id/tv_day_hour"/>
 
             <TextView
                 android:id="@+id/tv_humidity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginHorizontal="16dp"
                 android:gravity="center_horizontal"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@id/tv_estimated_temperature" />
+                app:layout_constraintTop_toBottomOf="@id/tv_estimated_temperature"/>
 
             <TextView
                 android:id="@+id/tv_max_temp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:textStyle="bold"
+                android:layout_marginHorizontal="16dp"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
-                android:textColor="?attr/colorAccent"
                 android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -79,11 +80,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginHorizontal="16dp"
                 android:gravity="center_horizontal"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@id/tv_max_temp" />
+                app:layout_constraintTop_toBottomOf="@id/tv_max_temp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

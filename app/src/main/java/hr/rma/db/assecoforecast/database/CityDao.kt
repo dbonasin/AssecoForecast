@@ -7,12 +7,12 @@ import androidx.room.Query
 
 @Dao
 interface CityDao {
-    @Query("SELECT * FROM cities WHERE continent LIKE 'Europe'")
+    @Query("SELECT * FROM cities WHERE ContinentName LIKE 'Europe'")
     fun getAllCities(): LiveData<List<City>>
 
-    @Query("SELECT * FROM cities WHERE capital_name = :cityName")
-    fun getLanAndLon(cityName: String): LiveData<City>
+    @Query("SELECT COUNT(*) FROM cities WHERE ContinentName LIKE 'Europe'")
+    fun getNumberOFCities(): LiveData<Int>
 
-    @Insert
-    fun insertMessage(city: City?)
+    @Query("SELECT * FROM cities WHERE CapitalName LIKE :cityName")
+    fun getLatAndLon(cityName: String): LiveData<City>
 }

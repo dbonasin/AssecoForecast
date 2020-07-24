@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.google.gson.GsonBuilder
+import hr.rma.db.assecoforecast.database.CityRepository
 import hr.rma.db.assecoforecast.database.Current
 import hr.rma.db.assecoforecast.database.ForecastRepository
 import hr.rma.db.assecoforecast.database.Hourly
@@ -25,10 +26,17 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
     val TAG = "ViewModel"
 
     private var repository: ForecastRepository? = null
+    private var cityRepository: CityRepository? = null
 
     init{
         repository = ForecastRepository(application)
+        cityRepository = CityRepository(application)
+
     }
+
+    fun getLatAndLon(cityName: String) =  cityRepository?.getLatAndLon(cityName)
+
+    fun getAllCities() =  cityRepository?.getAllCities()
 
     fun getCurrent(): LiveData<Current?>? {
         return repository?.getCurrent()
@@ -61,7 +69,6 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                 Log.d(TAG, "Pred preuzimanjem jsona")
                 if (response.code() == 200){
                     weatherResponse = response.body()!!
-//                  TODO Weather response treba nekako raspakirati i spremiti podatke iz tog jsona
                     Log.d(TAG, "Preuzeo json " + weatherResponse?.current?.feelsLike)
                     val current = Current(1,response.body()!!.current.temp, response.body()!!.current.humidity, response.body()!!.current.clouds)
                     val listOfHourly :ArrayList<Hourly>? = ArrayList()

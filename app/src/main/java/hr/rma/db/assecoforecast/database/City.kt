@@ -4,35 +4,38 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import org.jetbrains.annotations.NotNull
 
-@Entity(primaryKeys = ["longitude", "latitude"], tableName = "cities")
+@Entity(primaryKeys = ["CapitalLatitude", "CapitalLongitude"], tableName = "cities")
 class City {
-    @ColumnInfo(name = "country")
+    @ColumnInfo(name = "CountryName")
     @SerializedName("CountryName")
     @Expose
     var countryName: String? = null
 
-    @ColumnInfo(name = "capital_name")
+    @ColumnInfo(name = "CapitalName")
     @SerializedName("CapitalName")
     @Expose
     var capitalName: String? = null
 
-    @ColumnInfo(name = "latitude")
+    @ColumnInfo(name = "CapitalLatitude")
     @SerializedName("CapitalLatitude")
     @Expose
+    @NotNull
     var capitalLatitude: String? = null
 
-    @ColumnInfo(name = "longitude")
+    @ColumnInfo(name = "CapitalLongitude")
     @SerializedName("CapitalLongitude")
     @Expose
+    @NotNull
     var capitalLongitude: String? = null
 
-    @ColumnInfo(name = "country_code")
+    @ColumnInfo(name = "CountryCode")
     @SerializedName("CountryCode")
     @Expose
     var countryCode: String? = null
 
-    @ColumnInfo(name = "continent")
+    @ColumnInfo(name = "ContinentName")
     @SerializedName("ContinentName")
     @Expose
     var continentName: String? = null
