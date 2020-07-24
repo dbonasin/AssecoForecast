@@ -2,7 +2,6 @@ package hr.rma.db.assecoforecast.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import hr.rma.db.assecoforecast.WeatherResponse
 
 
 @Dao

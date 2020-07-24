@@ -1,13 +1,10 @@
 package hr.rma.db.assecoforecast
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import hr.rma.db.assecoforecast.database.Current
 import hr.rma.db.assecoforecast.database.Hourly
 
 class MainActivity : AppCompatActivity() {

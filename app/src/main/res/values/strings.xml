@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AssecoForecast</string>
+    <string name="weather_item_image">Image of forecast</string>
 </resources>
