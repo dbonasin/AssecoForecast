@@ -3,46 +3,76 @@ package hr.rma.db.assecoforecast
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.add
 import androidx.lifecycle.ViewModelProvider
-import hr.rma.db.assecoforecast.database.City
-import hr.rma.db.assecoforecast.database.CityRepository
-import hr.rma.db.assecoforecast.database.Hourly
 
 class MainActivity : AppCompatActivity() {
     val TAG = "Main activity"
 
-    lateinit var tvCityName : TextView
-    lateinit var tvCurrTemperature : TextView
-    lateinit var tvCurrWeather : TextView
-    lateinit var tvMaxTemp : TextView
-    lateinit var tvMinTemp : TextView
-    lateinit var weatherResponse: WeatherResponse
     lateinit var forecastViewModel : ForecastViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_screen)
+        setContentView(R.layout.activity_main)
 
-        tvCityName = findViewById(R.id.city_name)
-        tvCurrTemperature = findViewById(R.id.current_temperature)
-        tvCurrWeather = findViewById(R.id.current_weather)
-        tvMaxTemp = findViewById(R.id.max_temp)
-        tvMinTemp = findViewById(R.id.min_temp)
         forecastViewModel = ViewModelProvider(this).get<ForecastViewModel>(ForecastViewModel::class.java)
         forecastViewModel.getData()
-
-        forecastViewModel.getHourly()?.observe(this,
-            Observer<List<Hourly?>?> {
-                t ->
-                tvCurrTemperature.text = t?.get(0)?.hourTemp.toString()
-            })
-
-        forecastViewModel.getLatAndLon("Zagreb")?.observe(this, Observer<City>{
-            t ->
-            tvCityName.text = t?.capitalName
-        })
     }
 }
+//
+//import androidx.fragment.app.Fragment
+//import androidx.fragment.app.FragmentActivity
+//import androidx.viewpager2.adapter.FragmentStateAdapter
+//import androidx.viewpager2.widget.ViewPager2
+//
+///**
+// * The number of pages (wizard steps) to show in this demo.
+// */
+//private const val NUM_PAGES = 2
+//
+//class MainActivity : FragmentActivity() {
+//
+//    /**
+//     * The pager widget, which handles animation and allows swiping horizontally to access previous
+//     * and next wizard steps.
+//     */
+//    private lateinit var viewPager: ViewPager2
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_main)
+//
+//        // Instantiate a ViewPager2 and a PagerAdapter.
+//        viewPager = findViewById(R.id.pager)
+//
+//        // The pager adapter, which provides the pages to the view pager widget.
+//        val pagerAdapter = ScreenSlidePagerAdapter(this)
+//        viewPager.adapter = pagerAdapter
+//    }
+//
+//    override fun onBackPressed() {
+//        if (viewPager.currentItem == 0) {
+//            // If the user is currently looking at the first step, allow the system to handle the
+//            // Back button. This calls finish() on this activity and pops the back stack.
+//            super.onBackPressed()
+//        } else {
+//            // Otherwise, select the previous step.
+//            viewPager.currentItem = viewPager.currentItem - 1
+//        }
+//    }
+//
+//    /**
+//     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
+//     * sequence.
+//     */
+//    private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+//        override fun getItemCount(): Int = NUM_PAGES
+//
+//        override fun createFragment(position: Int): Fragment = ForecastScreenFragment()
+//    }
+//}
+
 
 

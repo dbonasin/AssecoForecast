@@ -1,9 +1,11 @@
 package hr.rma.db.assecoforecast.adapters
 
 import android.view.LayoutInflater
+import android.view.TextureView
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hr.rma.db.assecoforecast.R
 import hr.rma.db.assecoforecast.database.Daily
@@ -11,7 +13,7 @@ import java.util.*
 
 class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
 
-        private var DailyList: List<Daily>? = ArrayList<Daily>()
+        private var DailyList: List<Daily?>? = ArrayList()
 
 //        override fun getItemViewType(position: Int): Int {
 //            val daily: Daily = DailyList!![position]
@@ -33,7 +35,7 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
         }
 
          override fun onBindViewHolder(holder: DailyWeatherHolder, position: Int) {
-             val daily: Daily = DailyList!![position]
+             val daily: Daily? = DailyList!![position]
              holder.bind(daily)
          }
 
@@ -41,26 +43,50 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
             return if (DailyList == null) 0 else DailyList!!.size
         }
 
-        fun setWeather(daily: List<Daily>?) {
+        fun setWeather(daily: List<Daily?>?) {
             DailyList = daily
             notifyDataSetChanged()
         }
 
         class DailyWeatherHolder(itemView: View) :
-            RecyclerView.ViewHolder(itemView), OnClickListener{
-            //ovdje inicijalizirati textviewove
-            fun bind(daily: Daily) {
-                //ovdje staviti što treba pisati u text viewu
+            RecyclerView.ViewHolder(itemView){
+            var tvNameOfDay: TextView? = null
+            var tvTemperature: TextView? = null
+            var tvHumidity: TextView? = null
+            var tvMaxTemp: TextView? = null
+            var tvMinTemp: TextView? = null
+
+            fun bind(daily: Daily?) {
+//                TODO ovi dani u tjednu su krivi trebati će makar to riješiti preko datuma
+                tvNameOfDay?.text = when(daily!!.day){
+                    0 -> "Monday"
+                    1 -> "Tuesday"
+                    2 -> "Wednesday"
+                    3 -> "Thursday"
+                    4 -> "Friday"
+                    5 -> "Saturday"
+                    6 -> "Sunday"
+                    else -> ""
+                }
+                var strTmp = daily.dayTemp.toString() + "°C"
+                val strHum = daily.dayHumidity.toString() + "%"
+                tvTemperature?.text = strTmp
+                tvHumidity?.text = strHum
+                strTmp = "^ " + daily.maxTemp.toString() + "°C"
+                tvMaxTemp?.text = strTmp
+                strTmp = "˘ " + daily.minTemp.toString() + "°C"
+                tvMinTemp?.text = strTmp
             }
 
             init {
                 //Ovdje naći i staviti textviewove u samom itemu
 //                tvMsgRec = itemView.findViewById(R.id.tv_rec_message_body)
 //                tvTimeMsgRec = itemView.findViewById(R.id.tv_rec_message_time)
-            }
-
-            override fun onClick(v: View?) {
-                TODO("Not yet implemented")
+                tvNameOfDay = itemView.findViewById(R.id.tv_day_hour)
+                tvTemperature = itemView.findViewById(R.id.tv_estimated_temperature)
+                tvHumidity = itemView.findViewById(R.id.tv_humidity)
+                tvMaxTemp = itemView.findViewById(R.id.tv_max_temp)
+                tvMinTemp = itemView.findViewById(R.id.tv_min_temp)
             }
         }
 

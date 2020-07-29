@@ -3,6 +3,7 @@ package hr.rma.db.assecoforecast.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hr.rma.db.assecoforecast.database.City
 import hr.rma.db.assecoforecast.R
@@ -10,7 +11,7 @@ import java.util.*
 
 class CityListAdapter(listener: ListItemClickListener) : RecyclerView.Adapter<CityListAdapter.CityListHolder>() {
 
-    private var CityList: List<City>? = ArrayList<City>()
+    private var CityList: List<City?>? = ArrayList()
     private var mOnClickListener: ListItemClickListener? =
         null
 
@@ -42,30 +43,28 @@ class CityListAdapter(listener: ListItemClickListener) : RecyclerView.Adapter<Ci
     }
 
     override fun onBindViewHolder(holder: CityListHolder, position: Int) {
-        val city: City = CityList!![position]
-        holder.bind(city)
+        val city: City? = CityList!![position]
+        holder.bind(city!!)
     }
 
     override fun getItemCount(): Int {
         return if (CityList == null) 0 else CityList!!.size
     }
 
-    fun setWeather(city: List<City>?) {
+    fun setCities(city: List<City?>?) {
         CityList = city
         notifyDataSetChanged()
     }
 
     inner class CityListHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        //ovdje inicijalizirati textviewove
+        var tvNameOfCity: TextView? = null
         fun bind(city: City) {
-            //ovdje staviti što treba pisati u text viewu
+            tvNameOfCity?.text = city.capitalName
         }
 
         init {
-            //Ovdje naći i staviti textviewove u samom itemu
-//                tvMsgRec = itemView.findViewById(R.id.tv_rec_message_body)
-//                tvTimeMsgRec = itemView.findViewById(R.id.tv_rec_message_time)
+            tvNameOfCity = itemView.findViewById(R.id.list_city_name)
         }
 
         override fun onClick(v: View?) {

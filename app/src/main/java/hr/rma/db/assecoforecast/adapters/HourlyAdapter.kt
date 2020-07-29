@@ -3,6 +3,8 @@ package hr.rma.db.assecoforecast.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import hr.rma.db.assecoforecast.R
 import hr.rma.db.assecoforecast.database.Hourly
@@ -10,7 +12,7 @@ import java.util.*
 
 class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() {
 
-    private var HourlyList: List<Hourly>? = ArrayList<Hourly>()
+    private var HourlyList: List<Hourly?>? = ArrayList()
 
 //        override fun getItemViewType(position: Int): Int {
 //            val hourly: Hourly = HourlyList!![position]
@@ -32,7 +34,7 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() 
     }
 
     override fun onBindViewHolder(holder: HourlyWeatherHolder, position: Int) {
-        val hourly: Hourly = HourlyList!![position]
+        val hourly: Hourly? = HourlyList!![position]
         holder.bind(hourly)
     }
 
@@ -40,26 +42,37 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() 
         return if (HourlyList == null) 0 else HourlyList!!.size
     }
 
-    fun setWeather(hourly: List<Hourly>?) {
+    fun setWeather(hourly: List<Hourly?>?) {
         HourlyList = hourly
         notifyDataSetChanged()
     }
 
     class HourlyWeatherHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        RecyclerView.ViewHolder(itemView) {
         //ovdje inicijalizirati textviewove
-        fun bind(hourly: Hourly) {
-            //ovdje staviti što treba pisati u text viewu
+        var tvHour: TextView? = null
+        var tvTemperature: TextView? = null
+        var tvHumidity: TextView? = null
+        var tvMaxTemp: TextView? = null
+        var tvMinTemp: TextView? = null
+
+        fun bind(hourly: Hourly?) {
+            val strHour = (hourly!!.hour + 1).toString() + "h"
+            val strTmp = hourly.hourTemp.toString() + "°C"
+            val strHum = hourly.hourHumidity.toString() + "%"
+            tvHour?.text = strHour
+            tvTemperature?.text = strTmp
+            tvHumidity?.text = strHum
+            tvMaxTemp?.visibility = View.GONE
+            tvMinTemp?.visibility = View.GONE
         }
 
         init {
-            //Ovdje naći i staviti textviewove u samom itemu
-//                tvMsgRec = itemView.findViewById(R.id.tv_rec_message_body)
-//                tvTimeMsgRec = itemView.findViewById(R.id.tv_rec_message_time)
-        }
-
-        override fun onClick(v: View?) {
-            TODO("Not yet implemented")
+            tvHour = itemView.findViewById(R.id.tv_day_hour)
+            tvTemperature = itemView.findViewById(R.id.tv_estimated_temperature)
+            tvHumidity = itemView.findViewById(R.id.tv_humidity)
+            tvMaxTemp = itemView.findViewById(R.id.tv_max_temp)
+            tvMinTemp = itemView.findViewById(R.id.tv_min_temp)
         }
     }
 

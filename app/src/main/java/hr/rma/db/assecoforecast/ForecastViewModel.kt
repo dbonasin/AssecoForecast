@@ -9,6 +9,7 @@ import hr.rma.db.assecoforecast.database.CityRepository
 import hr.rma.db.assecoforecast.database.Current
 import hr.rma.db.assecoforecast.database.ForecastRepository
 import hr.rma.db.assecoforecast.database.Hourly
+import hr.rma.db.assecoforecast.database.Daily
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,6 +46,10 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
         return repository?.getHourly()
     }
 
+    fun getDaily(): LiveData<List<Daily?>?>?{
+        return repository?.getDaily()
+    }
+
     fun getData() : WeatherResponse?{
 
         var weatherResponse : WeatherResponse? = null
@@ -70,33 +75,35 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                 if (response.code() == 200){
                     weatherResponse = response.body()!!
                     Log.d(TAG, "Preuzeo json " + weatherResponse?.current?.feelsLike)
+
                     val current = Current(1,response.body()!!.current.temp, response.body()!!.current.humidity, response.body()!!.current.clouds)
+                    repository?.insertCurrent(current)
+
                     val listOfHourly :ArrayList<Hourly>? = ArrayList()
-                    val iterator = response.body()!!.hourly.iterator()
+                    val hIterator = response.body()!!.hourly.iterator()
                     var i : Int = 0
-                    iterator.forEach {
+                    hIterator.forEach {
                         val hourly = Hourly(i, it.temp, it.humidity, it.clouds)
                         listOfHourly?.add(hourly)
-                        Log.d(TAG, listOfHourly?.get(i)?.hourTemp.toString())
+//                        Log.d(TAG, listOfHourly?.get(i)?.hourTemp.toString())
                         i++
 
                     }
+                    listOfHourly?.iterator()?.forEach {
+                        repository?.insertHourly(it)
+                    }
 
-
-//                    if(repository!!.isCurrentEmpty()!!.value!!){
-                        repository?.insertCurrent(current)
-                        listOfHourly?.iterator()?.forEach {
-                            repository?.insertHourly(it)
-
-                        }
-//
-//                    } else {
-//                        repository?.updateCurrent(current)
-//                        listOfHourly?.iterator()?.forEach {
-//                            repository?.updateHourly(it)
-//                        }
-//                    }
-
+                    val listOfDaily: ArrayList<Daily>? = ArrayList()
+                    val dIterator = response.body()!!.daily.iterator()
+                    i = 0
+                    dIterator.forEach {
+                        val daily = Daily(i, it.temp.day, it.temp.min, it.temp.max, it.humidity, it.clouds)
+                        listOfDaily?.add(daily)
+                        i++
+                    }
+                    listOfDaily?.iterator()?.forEach {
+                        repository?.insertDaily(it)
+                    }
                 }
             }
 

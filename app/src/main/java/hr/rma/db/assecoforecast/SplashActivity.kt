@@ -1,11 +1,15 @@
 package hr.rma.db.assecoforecast
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
+import android.util.Log
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import hr.rma.db.assecoforecast.R
+
 
 class SplashActivity : AppCompatActivity() {
     private val TIME_OUT:Long=10
@@ -18,25 +22,25 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
         progressBar = findViewById(R.id.welcome_progress_bar)
-        i = progressBar!!.progress
+        val context: Context = this
 
-        Thread (Runnable {
-            while(i < FULL_BAR){
-                i += 1
-                handler.post(Runnable {
-                    progressBar!!.progress = i
-                })
-                try {
-                    Thread.sleep(TIME_OUT)
-                } catch (e: InterruptedException){
-                    e.printStackTrace()
-                }
+        object : CountDownTimer(1000, 1) {
+            override fun onTick(millisUntilFinished: Long) {
+                val i = (1000 - millisUntilFinished)/10
+                progressBar!!.progress = i.toInt()
+                Log.d("Splash", "loading: " + i + "%")
             }
-            startActivity(Intent(this, MainActivity::class.java))
 
-            finish()
-        }).start()
+            override fun onFinish() {
+                startActivity(Intent(intent))
+                finish();
+            }
+        }.start()
+
 
     }
 }
