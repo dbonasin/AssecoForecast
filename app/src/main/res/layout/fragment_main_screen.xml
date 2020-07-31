@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/fragment_main_screen"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_city_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/bt_change_city"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
         android:text="Ime grada"
         android:textColor="@color/sky_blue_500"
-        android:textSize="25sp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="4dp"
-        />
+        android:textSize="25sp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_current_weather"
@@ -52,5 +56,14 @@
         android:text="vlaga"
         android:textColor="@color/sky_blue_500"
         android:textSize="25sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_change_city"
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/tv_current_humidity"/>
+
 
 </RelativeLayout>

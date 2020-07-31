@@ -1,14 +1,14 @@
 package hr.rma.db.assecoforecast.adapters
 
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hr.rma.db.assecoforecast.R
 import hr.rma.db.assecoforecast.database.Daily
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
@@ -57,17 +57,15 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
             var tvMinTemp: TextView? = null
 
             fun bind(daily: Daily?) {
-//                TODO ovi dani u tjednu su krivi trebati će makar to riješiti preko datuma
-                tvNameOfDay?.text = when(daily!!.day){
-                    0 -> "Monday"
-                    1 -> "Tuesday"
-                    2 -> "Wednesday"
-                    3 -> "Thursday"
-                    4 -> "Friday"
-                    5 -> "Saturday"
-                    6 -> "Sunday"
-                    else -> ""
-                }
+                val outFormat = SimpleDateFormat("EEEE")
+                val ts: Date = Timestamp(System.currentTimeMillis())
+                val cal = Calendar.getInstance()
+                cal.time = ts
+                cal.add(Calendar.DAY_OF_WEEK, (daily!!.day + 1))
+                ts.time = cal.time.time
+                val day = outFormat.format(ts)
+
+                tvNameOfDay?.text = day
                 var strTmp = daily.dayTemp.toString() + "°C"
                 val strHum = daily.dayHumidity.toString() + "%"
                 tvTemperature?.text = strTmp

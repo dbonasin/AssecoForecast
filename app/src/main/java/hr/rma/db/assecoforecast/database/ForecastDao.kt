@@ -7,7 +7,7 @@ import androidx.room.*
 @Dao
 interface ForecastDao {
     @Query("SELECT COUNT(*) FROM daily")
-    fun getCurrentweatherCount() :LiveData<Int>
+    fun getCurrentWeatherCount() :LiveData<Int>
 
     @Query("SELECT * FROM current")
     fun getCurrentWeather(): LiveData<Current?>?
@@ -18,13 +18,22 @@ interface ForecastDao {
     @Query("SELECT * FROM hourly")
     fun getHourlyWeather(): LiveData<List<Hourly?>?>?
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     fun insertCurrentWeather(weather: Current?)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     fun insertDailyWeather(vararg weather: Daily?)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     fun insertHourlyWeather(vararg weather: Hourly?)
+
+    @Update
+    fun updateCurrentWeather(weather: Current?)
+
+    @Update
+    fun updateDailyWeather(vararg weather: Daily?)
+
+    @Update
+    fun updateHourlyWeather(vararg weather: Hourly?)
 
 }

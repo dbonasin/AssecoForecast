@@ -8,6 +8,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import hr.rma.db.assecoforecast.R
 import hr.rma.db.assecoforecast.database.Hourly
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 
 class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() {
@@ -57,7 +59,21 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() 
         var tvMinTemp: TextView? = null
 
         fun bind(hourly: Hourly?) {
-            val strHour = (hourly!!.hour + 1).toString() + "h"
+            val outFormat = SimpleDateFormat("HH")
+            val dayFormat = SimpleDateFormat("EEEE")
+
+            val ts: Date = Timestamp(System.currentTimeMillis())
+            val cal = Calendar.getInstance()
+            cal.time = ts
+            val today = dayFormat.format(ts)
+            cal.add(Calendar.HOUR_OF_DAY, (hourly!!.hour + 1))
+            ts.time = cal.time.time
+            val hour = outFormat.format(ts)
+            var day = dayFormat.format(ts)
+
+            if (day == today) day = "Today"
+
+            val strHour = day +"\n" + hour + "h"
             val strTmp = hourly.hourTemp.toString() + "°C"
             val strHum = hourly.hourHumidity.toString() + "%"
             tvHour?.text = strHour

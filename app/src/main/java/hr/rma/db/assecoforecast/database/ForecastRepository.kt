@@ -15,7 +15,7 @@ class ForecastRepository(application: Application) {
         val database: ForecastDatabase? = ForecastDatabase.getInstance(application)
         forecastDao = database?.forecastDao()
     }
-//
+
     fun insertCurrent(current: Current) {
         Log.d(TAG,"Trenutno vrijeme se inserta u bazu: " + current.currentTemp)
         InsertCurrentAsyncTask(forecastDao).execute(current)
@@ -28,6 +28,21 @@ class ForecastRepository(application: Application) {
         Log.d(TAG,"daily vrijeme se inserta u bazu: ")
         InsertDailyAsyncTask(forecastDao).execute(daily)
     }
+
+    fun updateCurrent(current: Current) {
+        Log.d(TAG,"Trenutno vrijeme se updatea u bazu: " + current.currentTemp)
+        UpdateCurrentAsyncTask(forecastDao).execute(current)
+    }
+    fun updateHourly(hourly: Hourly) {
+        Log.d(TAG,"hourly vrijeme se updatea u bazu: ")
+        UpdateHourlyAsyncTask(forecastDao).execute(hourly)
+    }
+    fun updateDaily(daily: Daily) {
+        Log.d(TAG,"daily vrijeme se updatea u bazu: ")
+        UpdateDailyAsyncTask(forecastDao).execute(daily)
+    }
+
+    fun getCurrentWeatherCount(): LiveData<Int>? = forecastDao?.getCurrentWeatherCount()
 
     fun getCurrent(): LiveData<Current?>? = forecastDao?.getCurrentWeather();
 
@@ -67,6 +82,42 @@ class ForecastRepository(application: Application) {
 
         override fun doInBackground(vararg params: Daily?): Void? {
             forecastDao?.insertDailyWeather(params[0])
+            return null
+        }
+    }
+
+    private class UpdateCurrentAsyncTask (forecastDao: ForecastDao?) : AsyncTask<Current?, Void?, Void?>() {
+        var forecastDao: ForecastDao? = null
+        init {
+            this.forecastDao = forecastDao
+        }
+
+        override fun doInBackground(vararg params: Current?): Void? {
+            forecastDao?.updateCurrentWeather(params[0])
+            return null
+        }
+    }
+
+    private class UpdateHourlyAsyncTask (forecastDao: ForecastDao?) : AsyncTask<Hourly?, Void?, Void?>() {
+        var forecastDao: ForecastDao? = null
+        init {
+            this.forecastDao = forecastDao
+        }
+
+        override fun doInBackground(vararg params: Hourly?): Void? {
+            forecastDao?.updateHourlyWeather(params[0])
+            return null
+        }
+    }
+
+    private class UpdateDailyAsyncTask (forecastDao: ForecastDao?) : AsyncTask<Daily?, Void?, Void?>() {
+        var forecastDao: ForecastDao? = null
+        init {
+            this.forecastDao = forecastDao
+        }
+
+        override fun doInBackground(vararg params: Daily?): Void? {
+            forecastDao?.updateDailyWeather(params[0])
             return null
         }
     }

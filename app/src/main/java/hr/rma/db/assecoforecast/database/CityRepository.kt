@@ -15,6 +15,7 @@ class CityRepository(application: Application) {
     fun getNumberOfCities() = cityDao?.getNumberOFCities()
 
     fun getLatAndLon(cityName: String) : LiveData<City>?{
+        Log.d(TAG,  "ušao sam u getLatAndLon u CityRepository, ime grada: " + cityName )
         return cityDao?.getLatAndLon(cityName)
     }
 

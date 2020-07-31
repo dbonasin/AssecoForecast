@@ -1,15 +1,17 @@
 package hr.rma.db.assecoforecast
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.google.gson.GsonBuilder
-import hr.rma.db.assecoforecast.database.CityRepository
+import hr.rma.db.assecoforecast.database.*
 import hr.rma.db.assecoforecast.database.Current
-import hr.rma.db.assecoforecast.database.ForecastRepository
-import hr.rma.db.assecoforecast.database.Hourly
 import hr.rma.db.assecoforecast.database.Daily
+import hr.rma.db.assecoforecast.database.Hourly
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,27 +23,34 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
     //    api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=659e20ae4addd2c6c99d190ee44beca4
 //     Zagreb-> 45.8150° N, 15.9819° E
     val API_KEY : String = "659e20ae4addd2c6c99d190ee44beca4"
-    var lat = 45.8150;
-    var lon = 15.9819;
-    var units = "metric"
+    val units = "metric"
     val TAG = "ViewModel"
 
     private var repository: ForecastRepository? = null
     private var cityRepository: CityRepository? = null
+    var isEmpty: Boolean = true
+
+
 
     init{
+
         repository = ForecastRepository(application)
         cityRepository = CityRepository(application)
-
     }
 
-    fun getLatAndLon(cityName: String) =  cityRepository?.getLatAndLon(cityName)
+    fun getLatAndLon(cityName: String) : LiveData<City>? {
+        Log.d(TAG, "ušao sam u getLatAndLon u ViewModelu ")
+        return cityRepository?.getLatAndLon(cityName)
+    }
 
     fun getAllCities() =  cityRepository?.getAllCities()
+
+    fun getCurrentWeatherCount() = repository?.getCurrentWeatherCount()
 
     fun getCurrent(): LiveData<Current?>? {
         return repository?.getCurrent()
     }
+
     fun getHourly(): LiveData<List<Hourly?>?>?{
         return repository?.getHourly()
     }
@@ -51,6 +60,12 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getData() : WeatherResponse?{
+        val sharedPreferences : SharedPreferences = getApplication<Application>().getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
+        val lat = sharedPreferences.getString("CITY_LAT", null)?.toDouble()
+        val lon = sharedPreferences.getString("CITY_LON", null)?.toDouble()
+        val isEmpty = sharedPreferences.getBoolean("IS_EMPTY", true)
+
+        Log.d(TAG, lat.toString() + " " + lon.toString())
 
         var weatherResponse : WeatherResponse? = null
 
@@ -76,8 +91,9 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                     weatherResponse = response.body()!!
                     Log.d(TAG, "Preuzeo json " + weatherResponse?.current?.feelsLike)
 
+
                     val current = Current(1,response.body()!!.current.temp, response.body()!!.current.humidity, response.body()!!.current.clouds)
-                    repository?.insertCurrent(current)
+
 
                     val listOfHourly :ArrayList<Hourly>? = ArrayList()
                     val hIterator = response.body()!!.hourly.iterator()
@@ -89,9 +105,6 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                         i++
 
                     }
-                    listOfHourly?.iterator()?.forEach {
-                        repository?.insertHourly(it)
-                    }
 
                     val listOfDaily: ArrayList<Daily>? = ArrayList()
                     val dIterator = response.body()!!.daily.iterator()
@@ -101,8 +114,27 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                         listOfDaily?.add(daily)
                         i++
                     }
-                    listOfDaily?.iterator()?.forEach {
-                        repository?.insertDaily(it)
+
+//                    insertimg or upadateing database
+                    if (isEmpty){
+                        repository?.insertCurrent(current)
+                        listOfHourly?.iterator()?.forEach {
+                            repository?.insertHourly(it)
+                        }
+                        listOfDaily?.iterator()?.forEach {
+                            repository?.insertDaily(it)
+                        }
+                        val editor = sharedPreferences.edit()
+                        editor?.putBoolean("IS_EMPTY", false)
+                        editor?.apply()
+                    } else {
+                        repository?.updateCurrent(current)
+                        listOfHourly?.iterator()?.forEach {
+                            repository?.updateHourly(it)
+                        }
+                        listOfDaily?.iterator()?.forEach {
+                            repository?.updateDaily(it)
+                        }
                     }
                 }
             }

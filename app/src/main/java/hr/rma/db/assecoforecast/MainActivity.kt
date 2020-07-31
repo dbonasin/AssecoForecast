@@ -1,12 +1,10 @@
 package hr.rma.db.assecoforecast
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.add
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+
 
 class MainActivity : AppCompatActivity() {
     val TAG = "Main activity"
@@ -17,7 +15,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val sharedPreferences = getSharedPreferences("MY_PREF", MODE_PRIVATE)
+        val cityName = sharedPreferences.getString("CITY_NAME", null)
+
+        if (cityName == null){
+            val editor = sharedPreferences.edit()
+            editor.putString("CITY_NAME", "Zagreb")
+            editor.apply()
+        }
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+//            .add(R.id.fragment_curr_weather, SearchScreenFragment(), "mainFragment")
+                .add(R.id.fragment_curr_weather, MainScreenFragment(), "mainFragment")
+                .add(R.id.fragment_forecast, ForecastScreenFragment(), "forecastFragment")
+                .commit()
+        }
+
         forecastViewModel = ViewModelProvider(this).get<ForecastViewModel>(ForecastViewModel::class.java)
+        forecastViewModel.getCurrentWeatherCount()?.observe(this, Observer {
+            t->
+            forecastViewModel.isEmpty = false
+        })
         forecastViewModel.getData()
     }
 }
