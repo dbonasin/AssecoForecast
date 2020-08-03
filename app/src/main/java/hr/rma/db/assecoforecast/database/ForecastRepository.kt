@@ -5,7 +5,6 @@ import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.LiveData
 
-//TODO napraviti te asyncTaskove da može razgovarati s bazom
 class ForecastRepository(application: Application) {
     private val TAG : String  = "ForecastRepository"
 

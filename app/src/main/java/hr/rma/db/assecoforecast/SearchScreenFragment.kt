@@ -17,7 +17,6 @@ import hr.rma.db.assecoforecast.adapters.CityListAdapter.ListItemClickListener
 import hr.rma.db.assecoforecast.database.City
 
 class SearchScreenFragment :Fragment(), ListItemClickListener {
-    //TODO trebati ću probati ići po googlovom tutorialu
 
     private lateinit var viewModel: ForecastViewModel
     private lateinit var recyclerView: RecyclerView

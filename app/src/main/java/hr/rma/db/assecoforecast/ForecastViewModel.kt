@@ -92,14 +92,19 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                     Log.d(TAG, "Preuzeo json " + weatherResponse?.current?.feelsLike)
 
 
-                    val current = Current(1,response.body()!!.current.temp, response.body()!!.current.humidity, response.body()!!.current.clouds)
+                    val current = Current(1,response.body()!!.current.temp,
+                        response.body()!!.current.humidity,
+                        response.body()!!.current.clouds,
+                        response.body()!!.current.dt,
+                        response.body()!!.current.weather[0].icon,
+                        response.body()!!.current.weather[0].description)
 
 
                     val listOfHourly :ArrayList<Hourly>? = ArrayList()
                     val hIterator = response.body()!!.hourly.iterator()
                     var i : Int = 0
                     hIterator.forEach {
-                        val hourly = Hourly(i, it.temp, it.humidity, it.clouds)
+                        val hourly = Hourly(i, it.temp, it.humidity, it.clouds, it.dt, it.weather[0].icon)
                         listOfHourly?.add(hourly)
 //                        Log.d(TAG, listOfHourly?.get(i)?.hourTemp.toString())
                         i++
@@ -110,7 +115,7 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                     val dIterator = response.body()!!.daily.iterator()
                     i = 0
                     dIterator.forEach {
-                        val daily = Daily(i, it.temp.day, it.temp.min, it.temp.max, it.humidity, it.clouds)
+                        val daily = Daily(i, it.temp.day, it.temp.min, it.temp.max, it.humidity, it.clouds, it.dt, it.weather[0].icon)
                         listOfDaily?.add(daily)
                         i++
                     }

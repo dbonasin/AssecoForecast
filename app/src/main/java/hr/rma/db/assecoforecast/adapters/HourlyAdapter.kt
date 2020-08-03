@@ -3,9 +3,12 @@ package hr.rma.db.assecoforecast.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import hr.rma.db.assecoforecast.R
 import hr.rma.db.assecoforecast.database.Hourly
 import java.sql.Timestamp
@@ -57,17 +60,25 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() 
         var tvHumidity: TextView? = null
         var tvMaxTemp: TextView? = null
         var tvMinTemp: TextView? = null
+        var ivWeather: ImageView? = null
 
         fun bind(hourly: Hourly?) {
             val outFormat = SimpleDateFormat("HH")
             val dayFormat = SimpleDateFormat("EEEE")
 
-            val ts: Date = Timestamp(System.currentTimeMillis())
-            val cal = Calendar.getInstance()
-            cal.time = ts
-            val today = dayFormat.format(ts)
-            cal.add(Calendar.HOUR_OF_DAY, (hourly!!.hour + 1))
-            ts.time = cal.time.time
+            val options: RequestOptions = RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_round)
+
+            val imageURL = "http://openweathermap.org/img/wn/" + hourly?.icon + ".png"
+
+            Glide.with(itemView.context).load(imageURL).apply(options)
+                .into(ivWeather!!)
+
+            val UNIX_TO_JAVA = 1000
+            val ts: Date = Timestamp(hourly?.dt!!.toLong() * UNIX_TO_JAVA)
+            val today = dayFormat.format(Timestamp(System.currentTimeMillis()))
             val hour = outFormat.format(ts)
             var day = dayFormat.format(ts)
 
@@ -89,6 +100,7 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() 
             tvHumidity = itemView.findViewById(R.id.tv_humidity)
             tvMaxTemp = itemView.findViewById(R.id.tv_max_temp)
             tvMinTemp = itemView.findViewById(R.id.tv_min_temp)
+            ivWeather = itemView.findViewById(R.id.iv_card_weather_icon)
         }
     }
 

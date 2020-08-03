@@ -9,6 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 class MainActivity : AppCompatActivity() {
     val TAG = "Main activity"
 
+//    todo napraviti loading animaciju,
+//    todo napraviti da čovjek dam može napraviti refresh,
+//     todo napraviti da se refresha svaki sat
+
     lateinit var forecastViewModel : ForecastViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
