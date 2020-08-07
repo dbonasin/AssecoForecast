@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import hr.rma.db.assecoforecast.adapters.CityListAdapter
 import hr.rma.db.assecoforecast.adapters.DailyAdapter
 import hr.rma.db.assecoforecast.adapters.HourlyAdapter
@@ -63,5 +64,6 @@ class ForecastScreenFragment : Fragment(){
             Observer<List<Daily?>?> { t ->
                 dailyAdapter.setWeather(t)
             })
+
     }
 }

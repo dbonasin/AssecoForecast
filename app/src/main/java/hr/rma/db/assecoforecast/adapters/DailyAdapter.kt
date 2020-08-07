@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import hr.rma.db.assecoforecast.R
@@ -73,7 +74,13 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
 
                 val imageURL = "http://openweathermap.org/img/wn/" + daily.icon + ".png"
 
+                val circularProgressDrawable = CircularProgressDrawable(itemView.context)
+                circularProgressDrawable.strokeWidth = 5f
+                circularProgressDrawable.centerRadius = 30f
+                circularProgressDrawable.start()
+
                 Glide.with(itemView.context).load(imageURL).apply(options)
+                    .placeholder(circularProgressDrawable)
                     .into(ivWeather!!)
 
                 tvNameOfDay?.text = day
@@ -81,9 +88,9 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
                 val strHum = daily.dayHumidity.toString() + "%"
                 tvTemperature?.text = strTmp
                 tvHumidity?.text = strHum
-                strTmp = "^ " + daily.maxTemp.toString() + "°C"
+                strTmp = daily.maxTemp.toString() + "°C"
                 tvMaxTemp?.text = strTmp
-                strTmp = "˘ " + daily.minTemp.toString() + "°C"
+                strTmp = daily.minTemp.toString() + "°C"
                 tvMinTemp?.text = strTmp
             }
 

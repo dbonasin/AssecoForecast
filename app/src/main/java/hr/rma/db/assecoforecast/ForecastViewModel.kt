@@ -28,9 +28,6 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
 
     private var repository: ForecastRepository? = null
     private var cityRepository: CityRepository? = null
-    var isEmpty: Boolean = true
-
-
 
     init{
 
@@ -59,7 +56,9 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
         return repository?.getDaily()
     }
 
-    fun getData() : WeatherResponse?{
+    fun searchCities(cityName: String) = cityRepository?.searchCities(cityName)
+
+    fun getData(){
         val sharedPreferences : SharedPreferences = getApplication<Application>().getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
         val lat = sharedPreferences.getString("CITY_LAT", null)?.toDouble()
         val lon = sharedPreferences.getString("CITY_LON", null)?.toDouble()
@@ -121,7 +120,7 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                     }
 
 //                    insertimg or upadateing database
-                    if (isEmpty){
+                    if ( isEmpty){
                         repository?.insertCurrent(current)
                         listOfHourly?.iterator()?.forEach {
                             repository?.insertHourly(it)
@@ -141,16 +140,17 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                             repository?.updateDaily(it)
                         }
                     }
+                } else {
+                    Log.d(TAG, "Response code: " + response.code())
+                    Log.d(TAG, "URL: api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&units=$units&exclude=minutely&appid=$API_KEY")
                 }
             }
 
             override fun onFailure(call: Call<WeatherResponse?>, t: Throwable) {
                 Log.d(TAG, "Nisam uspio dobiti json " + t.cause)
-                getData()
 
             }
         })
-    return weatherResponse
     }
 
 

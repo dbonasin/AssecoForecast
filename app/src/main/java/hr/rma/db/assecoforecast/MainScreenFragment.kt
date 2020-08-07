@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -45,16 +48,25 @@ class MainScreenFragment : Fragment(), View.OnClickListener{
         val tvDescription: TextView = view.findViewById(R.id.tv_current_weather)
         val ivWeather: ImageView = view.findViewById(R.id.iv_weather_icon)
 
+        val circularProgressDrawable = CircularProgressDrawable(view.context)
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.start()
+
         val options: RequestOptions = RequestOptions()
             .centerCrop()
-            .placeholder(R.mipmap.ic_launcher_round)
-            .error(R.mipmap.ic_launcher_round)
-
+            .placeholder(circularProgressDrawable)
+//            .error(R.mipmap.ic_launcher_round)
 
         viewModel.getCurrent()?.observe(viewLifecycleOwner,
             Observer{ t ->
-                val strTmp = t?.currentTemp.toString() + "°C"
-                val strHum = t?.currentHumidity.toString() + "%"
+                var strTmp = t?.currentTemp.toString() + "°C"
+                var strHum = t?.currentHumidity.toString() + "%"
+
+                if (strTmp.compareTo("null°C") == 0){
+                    strTmp = "Loading"
+                    strHum = ""
+                }
                 tvCurrTemp.text = strTmp
                 tvHumidity.text = strHum
                 tvDescription.text = t?.description
@@ -64,7 +76,10 @@ class MainScreenFragment : Fragment(), View.OnClickListener{
                     .into(ivWeather)
             })
         val sharedPreferences = activity?.getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
-        tvCityName.text = sharedPreferences?.getString("CITY_NAME", null)
+        val name_and_location = sharedPreferences?.getString("CITY_NAME", null) +" "+ sharedPreferences?.getString("CITY_LON", null) +" "+ sharedPreferences?.getString("CITY_LAT", null)
+        tvCityName.text = name_and_location
+
+
     }
 
     override fun onClick(v: View?) {
@@ -74,6 +89,7 @@ class MainScreenFragment : Fragment(), View.OnClickListener{
 
                 parentFragmentManager
                     .beginTransaction()
+                    .hide(parentFragmentManager.findFragmentByTag("forecastFragment")!!)
                     .replace(R.id.fragment_curr_weather, fragment, "citySearch")
                     .commit()
 

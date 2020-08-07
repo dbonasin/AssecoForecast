@@ -18,7 +18,8 @@ class CityListAdapter(listener: ListItemClickListener) : RecyclerView.Adapter<Ci
     private var mOnClickListener: ListItemClickListener = listener
 
     interface ListItemClickListener {
-        fun onListItemClick(clickedItemIndex: Int)
+//        fun onListItemClick(clickedItemIndex: Int)
+        fun onListItemClick(clickedCityName: String)
     }
 
 //        override fun getItemViewType(position: Int): Int {
@@ -76,9 +77,10 @@ class CityListAdapter(listener: ListItemClickListener) : RecyclerView.Adapter<Ci
         }
 //
         override fun onClick(v: View?) {
-            val clickedPosition = adapterPosition
+//            val clickedPosition = adapterPosition
 //            Log.d("SearchAdapter", "Kliknuo si")
-            mOnClickListener.onListItemClick(clickedPosition)
+//            mOnClickListener.onListItemClick(clickedPosition)
+            mOnClickListener.onListItemClick(tvNameOfCity?.text.toString())
         }
     }
 

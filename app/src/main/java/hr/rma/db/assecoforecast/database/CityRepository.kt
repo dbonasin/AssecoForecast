@@ -12,6 +12,8 @@ class CityRepository(application: Application) {
 
     fun getAllCities() = cityDao?.getAllCities()
 
+    fun searchCities(cityName: String) = cityDao?.searchCities(cityName)
+
     fun getNumberOfCities() = cityDao?.getNumberOFCities()
 
     fun getLatAndLon(cityName: String) : LiveData<City>?{

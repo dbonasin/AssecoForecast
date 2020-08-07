@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import hr.rma.db.assecoforecast.R
@@ -55,12 +56,16 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() 
     class HourlyWeatherHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         //ovdje inicijalizirati textviewove
-        var tvHour: TextView? = null
-        var tvTemperature: TextView? = null
-        var tvHumidity: TextView? = null
-        var tvMaxTemp: TextView? = null
-        var tvMinTemp: TextView? = null
-        var ivWeather: ImageView? = null
+        var tvHour: TextView
+        var tvTemperature: TextView
+        var tvHumidity: TextView
+        var tvMaxTemp: TextView
+        var tvMinTemp: TextView
+        var ivWeather: ImageView
+        var ivTemperature: ImageView
+        var ivHumidity: ImageView
+        var ivMaxTemp: ImageView
+        var ivMinTemp: ImageView
 
         fun bind(hourly: Hourly?) {
             val outFormat = SimpleDateFormat("HH")
@@ -73,8 +78,14 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() 
 
             val imageURL = "http://openweathermap.org/img/wn/" + hourly?.icon + ".png"
 
+            val circularProgressDrawable = CircularProgressDrawable(itemView.context)
+            circularProgressDrawable.strokeWidth = 5f
+            circularProgressDrawable.centerRadius = 30f
+            circularProgressDrawable.start()
+
             Glide.with(itemView.context).load(imageURL).apply(options)
-                .into(ivWeather!!)
+                .placeholder(circularProgressDrawable)
+                .into(ivWeather)
 
             val UNIX_TO_JAVA = 1000
             val ts: Date = Timestamp(hourly?.dt!!.toLong() * UNIX_TO_JAVA)
@@ -87,11 +98,10 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() 
             val strHour = day +"\n" + hour + "h"
             val strTmp = hourly.hourTemp.toString() + "°C"
             val strHum = hourly.hourHumidity.toString() + "%"
-            tvHour?.text = strHour
-            tvTemperature?.text = strTmp
-            tvHumidity?.text = strHum
-            tvMaxTemp?.visibility = View.GONE
-            tvMinTemp?.visibility = View.GONE
+            tvHour.text = strHour
+            tvTemperature.text = strTmp
+            tvHumidity.text = strHum
+
         }
 
         init {
@@ -101,6 +111,15 @@ class HourlyAdapter : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherHolder>() 
             tvMaxTemp = itemView.findViewById(R.id.tv_max_temp)
             tvMinTemp = itemView.findViewById(R.id.tv_min_temp)
             ivWeather = itemView.findViewById(R.id.iv_card_weather_icon)
+            ivTemperature = itemView.findViewById(R.id.iv_temperature)
+            ivHumidity = itemView.findViewById(R.id.iv_humidity)
+            ivMaxTemp = itemView.findViewById(R.id.iv_max_temperature)
+            ivMinTemp = itemView.findViewById(R.id.iv_min_temperature)
+
+            tvMaxTemp.visibility = View.GONE
+            tvMinTemp.visibility = View.GONE
+            ivMaxTemp.visibility = View.GONE
+            ivMinTemp.visibility = View.GONE
         }
     }
 

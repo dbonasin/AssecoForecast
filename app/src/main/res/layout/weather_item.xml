@@ -19,7 +19,7 @@
                 android:id="@+id/tv_day_hour"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center_horizontal"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -27,65 +27,104 @@
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
-<!--TODO postaviti sliku u odnosu na postotak visine  kartice-->
             <ImageView
                 android:id="@+id/iv_card_weather_icon"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:contentDescription="@string/weather_item_image"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:contentDescription="@string/weather_item_image"
                 android:scaleType="centerCrop"
-                app:layout_constraintEnd_toStartOf="@id/tv_humidity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_day_hour"/>
+
+            <ImageView
+                android:id="@+id/iv_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_estimated_temperature"
+                app:layout_constraintEnd_toStartOf="@+id/tv_estimated_temperature"
+                app:layout_constraintStart_toEndOf="@+id/iv_card_weather_icon"
+                android:src="@drawable/temperature_icon"/>
 
             <TextView
                 android:id="@+id/tv_estimated_temperature"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="8dp"
                 android:gravity="center_horizontal"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_card_weather_icon"
+                app:layout_constraintStart_toEndOf="@+id/iv_temperature"
                 app:layout_constraintTop_toBottomOf="@id/tv_day_hour"/>
+
+            <ImageView
+                android:id="@+id/iv_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_humidity"
+                app:layout_constraintEnd_toStartOf="@+id/tv_humidity"
+                app:layout_constraintStart_toEndOf="@+id/iv_card_weather_icon"
+                android:src="@drawable/humidity_icon"/>
 
             <TextView
                 android:id="@+id/tv_humidity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="8dp"
                 android:gravity="center_horizontal"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_card_weather_icon"
+                app:layout_constraintStart_toEndOf="@+id/iv_humidity"
                 app:layout_constraintTop_toBottomOf="@id/tv_estimated_temperature"/>
+
+
+            <ImageView
+                android:id="@+id/iv_max_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_max_temp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_max_temp"
+                app:layout_constraintStart_toEndOf="@+id/iv_card_weather_icon"
+                android:src="@drawable/max_temperature_icon"/>
 
             <TextView
                 android:id="@+id/tv_max_temp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="8dp"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_card_weather_icon"
+                app:layout_constraintStart_toEndOf="@+id/iv_max_temperature"
                 app:layout_constraintTop_toBottomOf="@id/tv_humidity"/>
+
+            <ImageView
+                android:id="@+id/iv_min_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_min_temp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_min_temp"
+                app:layout_constraintStart_toEndOf="@+id/iv_card_weather_icon"
+                android:src="@drawable/min_temperature_icon"/>
 
             <TextView
                 android:id="@+id/tv_min_temp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="8dp"
                 android:gravity="center_horizontal"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_card_weather_icon"
+                app:layout_constraintStart_toEndOf="@+id/iv_min_temperature"
                 app:layout_constraintTop_toBottomOf="@id/tv_max_temp"/>
 
 

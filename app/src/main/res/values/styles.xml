@@ -7,8 +7,8 @@
         <item name="colorPrimaryDark">@color/sky_gray_50_a600</item>
         <item name="colorOnSurface">@color/sky_white</item>
         <item name="colorAccent">@color/sky_blue_700</item>
-        <item name="colorSurface">@color/sky_blue_900</item>
-        <item name="colorSecondary">@color/sky_yellow_300</item>
+        <item name="colorSurface">@color/sky_blue_300</item>
+        <item name="colorSecondary">@color/sky_blue_900</item>
         <item name="android:colorBackground">@color/sky_blue_700</item>
     </style>
 

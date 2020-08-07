@@ -15,4 +15,7 @@ interface CityDao {
 
     @Query("SELECT * FROM cities WHERE CapitalName LIKE :cityName")
     fun getLatAndLon(cityName: String): LiveData<City>?
+
+    @Query("SELECT * FROM cities WHERE CapitalName LIKE :cityName ORDER BY CapitalName ASC")
+    fun searchCities(cityName: String): LiveData<List<City>>
 }
