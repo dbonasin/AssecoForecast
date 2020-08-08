@@ -6,4 +6,5 @@
     <string name="title_7_day_forcast">7 day forcast</string>
     <string name="title_list_of_cities">List of Cities</string>
     <string name="search_cities">Search cities...</string>
+    <string name="no_network_warning">No network</string>
 </resources>

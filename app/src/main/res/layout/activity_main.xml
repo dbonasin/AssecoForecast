@@ -45,19 +45,26 @@
 
 
 <!--    Za loadanje kada se prvi put pokreće aplikacija-->
-<!--    <LinearLayout-->
-<!--        android:id="@+id/empty_LinearLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="vertical">-->
+    <LinearLayout
+        android:id="@+id/empty_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-<!--        <androidx.core.widget.ContentLoadingProgressBar-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            style="@style/Widget.AppCompat.ProgressBar"-->
-<!--            />-->
-<!--    </LinearLayout>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_network_warning"
+            android:textSize="50sp"
+            android:gravity="center"/>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar"
+            />
+    </LinearLayout>
 
     </RelativeLayout>
 

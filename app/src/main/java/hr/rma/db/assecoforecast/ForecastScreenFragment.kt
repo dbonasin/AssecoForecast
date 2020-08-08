@@ -51,7 +51,6 @@ class ForecastScreenFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get<ForecastViewModel>(ForecastViewModel::class.java)
-//        TODO dodati da se snappa na sredinu
 
         viewModel.getHourly()?.observe(viewLifecycleOwner,
             Observer<List<Hourly?>?> { t ->

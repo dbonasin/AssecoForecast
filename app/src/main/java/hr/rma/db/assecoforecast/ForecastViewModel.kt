@@ -30,8 +30,10 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
     private var repository: ForecastRepository? = null
     private var cityRepository: CityRepository? = null
 
-    init{
+     var hasNetwork: MutableLiveData<Boolean> = MutableLiveData()
 
+    init{
+        hasNetwork.value = true
         repository = ForecastRepository(application)
         cityRepository = CityRepository(application)
     }
@@ -68,6 +70,8 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
         Log.d(TAG, "Zemljopisna Širina" + lat.toString() + " i dužina:" + lon.toString())
 
         var weatherResponse : WeatherResponse? = null
+
+        Log.d(TAG, "hasnetwork = " + hasNetwork.value)
 
         val gson = GsonBuilder()
             .setLenient()
@@ -146,12 +150,13 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                 } else {
                     Log.d(TAG, "Response code: " + response.code())
                     Log.d(TAG, "URL: api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&units=$units&exclude=minutely&appid=$API_KEY")
+                    hasNetwork.value = false
                 }
             }
 
             override fun onFailure(call: Call<WeatherResponse?>, t: Throwable) {
-                Log.d(TAG, "Nisam uspio dobiti json " + t.cause)
-
+                hasNetwork.value = false
+                Log.d(TAG, "Nisam uspio dobiti json " + t.cause + "\nhasnetwork = " + hasNetwork.value)
             }
         })
     }

@@ -1,8 +1,12 @@
 package hr.rma.db.assecoforecast
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
+import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -23,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("MY_PREF", MODE_PRIVATE)
         val cityName = sharedPreferences.getString("CITY_NAME", null)
         val editor = sharedPreferences.edit()
+        val noNetworkLayout = findViewById<LinearLayout>(R.id.empty_LinearLayout)
 
         forecastViewModel = ViewModelProvider(this).get<ForecastViewModel>(ForecastViewModel::class.java)
 
@@ -34,13 +39,33 @@ class MainActivity : AppCompatActivity() {
             editor.apply()
         }
         forecastViewModel.getData()
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-//            .add(R.id.fragment_curr_weather, SearchScreenFragment(), "mainFragment")
-                .add(R.id.fragment_curr_weather, MainScreenFragment(), "mainFragment")
-                .add(R.id.fragment_forecast, ForecastScreenFragment(), "forecastFragment")
-                .commit()
-        }
+//
+//        forecastViewModel.hasNetwork.observe(this, Observer{
+//            t->
+//            if (t){
+                Log.d(TAG, "ima mreže")
+                noNetworkLayout.visibility = View.INVISIBLE
+
+                if (savedInstanceState == null) {
+                    supportFragmentManager.beginTransaction()
+//                        .add(R.id.fragment_curr_weather, SearchScreenFragment(), "mainFragment")
+                        .add(R.id.fragment_curr_weather, MainScreenFragment(), "mainFragment")
+                        .add(R.id.fragment_forecast, ForecastScreenFragment(), "forecastFragment")
+                        .commit()
+                }
+//            } else {
+//                Log.d(TAG, "nema mreže")
+//                noNetworkLayout.visibility = View.VISIBLE
+////                if (savedInstanceState != null) {
+//                    supportFragmentManager.beginTransaction()
+//                        .hide(supportFragmentManager.findFragmentByTag("mainFragment")!!)
+//                        .hide(supportFragmentManager.findFragmentByTag("forecastFragment")!!)
+//                        .commit()
+////                }
+//            }
+//
+//        })
+
         forecastViewModel.getCurrentWeatherCount()?.observe(this, Observer {
                 t->
             editor.putBoolean("IS_EMPTY", t == 0)
@@ -78,9 +103,10 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
-
-    fun disableSwipe() {
-        pullToRefresh.isEnabled = false
-    }
+//
+//    fun disableSwipe() {
+//        pullToRefresh.isEnabled = false
+//    }
+//
 
 }

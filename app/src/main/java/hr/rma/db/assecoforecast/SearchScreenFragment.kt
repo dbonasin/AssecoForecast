@@ -38,7 +38,6 @@ class SearchScreenFragment :Fragment(), ListItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //        TODO dodati da se snappa na sredinu
         val view = inflater.inflate(R.layout.fragment_city_search, container, false)
         recyclerView = view.findViewById(R.id.rv_city_list)
         return view
