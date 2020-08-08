@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.gson.GsonBuilder
 import hr.rma.db.assecoforecast.database.*
@@ -64,7 +65,7 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
         val lon = sharedPreferences.getString("CITY_LON", null)?.toDouble()
         val isEmpty = sharedPreferences.getBoolean("IS_EMPTY", true)
 
-        Log.d(TAG, lat.toString() + " " + lon.toString())
+        Log.d(TAG, "Zemljopisna Širina" + lat.toString() + " i dužina:" + lon.toString())
 
         var weatherResponse : WeatherResponse? = null
 
@@ -88,7 +89,9 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
                 Log.d(TAG, "Pred preuzimanjem jsona")
                 if (response.code() == 200){
                     weatherResponse = response.body()!!
-                    Log.d(TAG, "Preuzeo json " + weatherResponse?.current?.feelsLike)
+//                    Log.d(TAG, "Trenutna temperatura " + weatherResponse?.current?.temp)
+//                    Log.d(TAG, "Opis " + weatherResponse?.current?.weather?.get(0)!!.description)
+//                    Log.d(TAG, "Vlaga " + weatherResponse?.current?.humidity)
 
 
                     val current = Current(1,response.body()!!.current.temp,

@@ -26,7 +26,6 @@ class SplashActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         progressBar = findViewById(R.id.welcome_progress_bar)
-        val context: Context = this
 
         object : CountDownTimer(1000, 1) {
             override fun onTick(millisUntilFinished: Long) {

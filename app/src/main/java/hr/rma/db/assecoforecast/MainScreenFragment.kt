@@ -76,8 +76,8 @@ class MainScreenFragment : Fragment(), View.OnClickListener{
                     .into(ivWeather)
             })
         val sharedPreferences = activity?.getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
-        val name_and_location = sharedPreferences?.getString("CITY_NAME", null) +" "+ sharedPreferences?.getString("CITY_LON", null) +" "+ sharedPreferences?.getString("CITY_LAT", null)
-        tvCityName.text = name_and_location
+//        val name_and_location = sharedPreferences?.getString("CITY_NAME", null) +" "+ sharedPreferences?.getString("CITY_LON", null) +" "+ sharedPreferences?.getString("CITY_LAT", null)
+        tvCityName.text = sharedPreferences?.getString("CITY_NAME", null)
 
 
     }

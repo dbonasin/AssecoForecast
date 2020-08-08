@@ -16,28 +16,28 @@ class ForecastRepository(application: Application) {
     }
 
     fun insertCurrent(current: Current) {
-        Log.d(TAG,"Trenutno vrijeme se inserta u bazu: " + current.currentTemp)
+//        Log.d(TAG,"Trenutno vrijeme se inserta u bazu: " + current.currentTemp)
         InsertCurrentAsyncTask(forecastDao).execute(current)
     }
     fun insertHourly(hourly: Hourly) {
-        Log.d(TAG,"hourly vrijeme se inserta u bazu: ")
+//        Log.d(TAG,"hourly vrijeme se inserta u bazu: ")
         InsertHourlyAsyncTask(forecastDao).execute(hourly)
     }
     fun insertDaily(daily: Daily) {
-        Log.d(TAG,"daily vrijeme se inserta u bazu: ")
+//        Log.d(TAG,"daily vrijeme se inserta u bazu: ")
         InsertDailyAsyncTask(forecastDao).execute(daily)
     }
 
     fun updateCurrent(current: Current) {
-        Log.d(TAG,"Trenutno vrijeme se updatea u bazu: " + current.currentTemp)
+//        Log.d(TAG,"Trenutno vrijeme se updatea u bazu: " + current.currentTemp)
         UpdateCurrentAsyncTask(forecastDao).execute(current)
     }
     fun updateHourly(hourly: Hourly) {
-        Log.d(TAG,"hourly vrijeme se updatea u bazu: ")
+//        Log.d(TAG,"hourly vrijeme se updatea u bazu: ")
         UpdateHourlyAsyncTask(forecastDao).execute(hourly)
     }
     fun updateDaily(daily: Daily) {
-        Log.d(TAG,"daily vrijeme se updatea u bazu: ")
+//        Log.d(TAG,"daily vrijeme se updatea u bazu: ")
         UpdateDailyAsyncTask(forecastDao).execute(daily)
     }
 

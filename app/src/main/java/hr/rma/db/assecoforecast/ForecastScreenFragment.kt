@@ -51,9 +51,6 @@ class ForecastScreenFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get<ForecastViewModel>(ForecastViewModel::class.java)
-
-        val layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 //        TODO dodati da se snappa na sredinu
 
         viewModel.getHourly()?.observe(viewLifecycleOwner,

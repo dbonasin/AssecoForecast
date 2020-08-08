@@ -109,6 +109,7 @@ class SearchScreenFragment :Fragment(), ListItemClickListener {
             editor?.putString("CITY_LON", t.capitalLongitude)
             editor?.putString("CITY_LAT", t.capitalLatitude)
             editor?.apply()
+            viewModel.getData()
         })
 
         val sharedPreferences = activity?.getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
@@ -117,7 +118,6 @@ class SearchScreenFragment :Fragment(), ListItemClickListener {
         editor?.apply()
 
 //            viewModel.city = viewModel.getLatAndLon(t[clickedItemIndex]?.capitalName!!)
-        viewModel.getData()
 
         val fragmentCurr = MainScreenFragment()
         val fragmentForecast = ForecastScreenFragment()
