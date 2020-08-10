@@ -6,14 +6,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_side_margin"
         android:layout_marginEnd="@dimen/card_side_margin"
-        android:layout_marginBottom="@dimen/card_bottom_margin"
+        android:layout_marginBottom="@dimen/margin_small"
         app:cardElevation="@dimen/card_elevation"
         app:cardPreventCornerOverlap="false"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Weather.Card">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
 
             <TextView
                 android:id="@+id/tv_day_hour"
@@ -31,12 +32,12 @@
                 android:id="@+id/iv_card_weather_icon"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
                 android:contentDescription="@string/weather_item_image"
                 android:scaleType="centerCrop"
+
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_day_hour"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_day_hour" />
 
             <ImageView
                 android:id="@+id/iv_temperature"

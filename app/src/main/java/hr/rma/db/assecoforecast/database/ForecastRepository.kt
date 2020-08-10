@@ -41,6 +41,18 @@ class ForecastRepository(application: Application) {
         UpdateDailyAsyncTask(forecastDao).execute(daily)
     }
 
+    fun deleteCurrent(){
+        DeleteCurrentAsyncTask(forecastDao).execute()
+    }
+
+    fun deleteHourly(){
+        DeleteHourlyAsyncTask(forecastDao).execute()
+    }
+
+    fun deleteDaily(){
+        DeleteDailyAsyncTask(forecastDao).execute()
+    }
+
     fun getCurrentWeatherCount(): LiveData<Int>? = forecastDao?.getCurrentWeatherCount()
 
     fun getCurrent(): LiveData<Current?>? = forecastDao?.getCurrentWeather();
@@ -117,6 +129,42 @@ class ForecastRepository(application: Application) {
 
         override fun doInBackground(vararg params: Daily?): Void? {
             forecastDao?.updateDailyWeather(params[0])
+            return null
+        }
+    }
+
+    private class DeleteCurrentAsyncTask (forecastDao: ForecastDao?) : AsyncTask<Void?, Void?, Void?>() {
+        var forecastDao: ForecastDao? = null
+        init {
+            this.forecastDao = forecastDao
+        }
+
+        override fun doInBackground(vararg p0: Void?): Void? {
+            forecastDao?.deleteCurrent()
+            return null
+        }
+    }
+
+    private class DeleteHourlyAsyncTask (forecastDao: ForecastDao?) : AsyncTask<Void?, Void?, Void?>() {
+        var forecastDao: ForecastDao? = null
+        init {
+            this.forecastDao = forecastDao
+        }
+
+        override fun doInBackground(vararg p0: Void?): Void? {
+            forecastDao?.deleteHourly()
+            return null
+        }
+    }
+
+    private class DeleteDailyAsyncTask (forecastDao: ForecastDao?) : AsyncTask<Void?, Void?, Void?>() {
+        var forecastDao: ForecastDao? = null
+        init {
+            this.forecastDao = forecastDao
+        }
+
+        override fun doInBackground(vararg p0: Void?): Void? {
+            forecastDao?.deleteDaily()
             return null
         }
     }

@@ -36,4 +36,13 @@ interface ForecastDao {
     @Update
     fun updateHourlyWeather(vararg weather: Hourly?)
 
+    @Query("DELETE FROM current" )
+    fun deleteCurrent()
+
+    @Query("DELETE FROM daily" )
+    fun deleteDaily()
+
+    @Query("DELETE FROM hourly" )
+    fun deleteHourly()
+
 }

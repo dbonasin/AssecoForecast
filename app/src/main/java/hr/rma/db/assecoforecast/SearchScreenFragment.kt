@@ -100,6 +100,7 @@ class SearchScreenFragment :Fragment(), ListItemClickListener {
 
         Log.d("SearchFragment", "Kliknuo si")
         Log.d("SearchFragment", clickedCityName)
+        viewModel.makeForecastBlank()
 
         viewModel.getLatAndLon(clickedCityName)?.observe(viewLifecycleOwner, Observer {
                 t->
@@ -108,7 +109,6 @@ class SearchScreenFragment :Fragment(), ListItemClickListener {
             editor?.putString("CITY_LON", t.capitalLongitude)
             editor?.putString("CITY_LAT", t.capitalLatitude)
             editor?.apply()
-            viewModel.getData()
         })
 
         val sharedPreferences = activity?.getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)

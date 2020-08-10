@@ -2,6 +2,7 @@ package hr.rma.db.assecoforecast
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,24 @@ class MainScreenFragment : Fragment(), View.OnClickListener{
         super.onViewCreated(view, savedInstanceState)
         val viewModel: ForecastViewModel = ViewModelProvider(this).get<ForecastViewModel>(ForecastViewModel::class.java)
 
+        val sharedPreferences = activity?.getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
+        val editor = sharedPreferences?.edit()
+//        var isEmpty = true
+        viewModel.getCurrentWeatherCount()?.observe(viewLifecycleOwner, Observer {
+                t->
+            editor?.putBoolean("IS_EMPTY", t == 0)
+            editor?.commit()
+            Log.d("MSF", "database is empty:" + (t == 0))
+        })
+
+        viewModel.getCurrentWeatherCount()?.observe(viewLifecycleOwner, Observer {
+                t->
+            if (t == 0){
+                viewModel.getData()
+                Log.d("MSF", "getting data")
+            }
+        })
+
         val changeCityBtn = view.findViewById<ImageButton>(R.id.bt_change_city)
         changeCityBtn.setOnClickListener(this)
 
@@ -62,20 +81,22 @@ class MainScreenFragment : Fragment(), View.OnClickListener{
             Observer{ t ->
                 var strTmp = t?.currentTemp.toString() + "°C"
                 var strHum = t?.currentHumidity.toString() + "%"
+                var descrioption = t?.description
 
                 if (strTmp.compareTo("null°C") == 0){
-                    strTmp = "Loading"
+                    strTmp = ""
                     strHum = ""
+                    descrioption = getString(R.string.loading)
                 }
                 tvCurrTemp.text = strTmp
                 tvHumidity.text = strHum
-                tvDescription.text = t?.description
+                tvDescription.text = descrioption
                 val imageURL = "http://openweathermap.org/img/wn/" + t?.icon + "@2x.png"
 
                 Glide.with(this).load(imageURL).apply(options)
                     .into(ivWeather)
             })
-        val sharedPreferences = activity?.getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
+
 //        val name_and_location = sharedPreferences?.getString("CITY_NAME", null) +" "+ sharedPreferences?.getString("CITY_LON", null) +" "+ sharedPreferences?.getString("CITY_LAT", null)
         tvCityName.text = sharedPreferences?.getString("CITY_NAME", null)
 

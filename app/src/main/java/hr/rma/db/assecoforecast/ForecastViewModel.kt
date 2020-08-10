@@ -92,10 +92,11 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
             ) {
                 Log.d(TAG, "Pred preuzimanjem jsona")
                 if (response.code() == 200){
+                    hasNetwork.value = true
                     weatherResponse = response.body()!!
-//                    Log.d(TAG, "Trenutna temperatura " + weatherResponse?.current?.temp)
-//                    Log.d(TAG, "Opis " + weatherResponse?.current?.weather?.get(0)!!.description)
-//                    Log.d(TAG, "Vlaga " + weatherResponse?.current?.humidity)
+                    Log.d(TAG, "Trenutna temperatura " + weatherResponse?.current?.temp)
+                    Log.d(TAG, "Opis " + weatherResponse?.current?.weather?.get(0)!!.description)
+                    Log.d(TAG, "Vlaga " + weatherResponse?.current?.humidity)
 
 
                     val current = Current(1,response.body()!!.current.temp,
@@ -108,21 +109,41 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
 
                     val listOfHourly :ArrayList<Hourly>? = ArrayList()
                     val hIterator = response.body()!!.hourly.iterator()
-                    var i : Int = 0
+                    var i = -1
                     hIterator.forEach {
-                        val hourly = Hourly(i, it.temp, it.humidity, it.clouds, it.dt, it.weather[0].icon)
-                        listOfHourly?.add(hourly)
-//                        Log.d(TAG, listOfHourly?.get(i)?.hourTemp.toString())
+                        if (i > -1) {
+                            val hourly = Hourly(
+                                i,
+                                it.temp,
+                                it.humidity,
+                                it.clouds,
+                                it.dt,
+                                it.weather[0].icon
+                            )
+                            listOfHourly?.add(hourly)
+//                            Log.d(TAG, listOfHourly?.get(i)?.hourTemp.toString())
+                        }
                         i++
 
                     }
 
                     val listOfDaily: ArrayList<Daily>? = ArrayList()
                     val dIterator = response.body()!!.daily.iterator()
-                    i = 0
+                    i = -1
                     dIterator.forEach {
-                        val daily = Daily(i, it.temp.day, it.temp.min, it.temp.max, it.humidity, it.clouds, it.dt, it.weather[0].icon)
-                        listOfDaily?.add(daily)
+                        if (i > -1) {
+                            val daily = Daily(
+                                i,
+                                it.temp.day,
+                                it.temp.min,
+                                it.temp.max,
+                                it.humidity,
+                                it.clouds,
+                                it.dt,
+                                it.weather[0].icon
+                            )
+                            listOfDaily?.add(daily)
+                        }
                         i++
                     }
 
@@ -161,5 +182,10 @@ class ForecastViewModel(application: Application) : AndroidViewModel(application
         })
     }
 
+    fun makeForecastBlank(){
+        repository?.deleteCurrent()
+        repository?.deleteHourly()
+        repository?.deleteDaily()
+    }
 
 }

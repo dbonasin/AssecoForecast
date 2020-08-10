@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -36,13 +37,12 @@ class MainActivity : AppCompatActivity() {
             editor.putString("CITY_NAME", "Zagreb")
             editor.putString("CITY_LON", 16.0000.toString())
             editor.putString("CITY_LAT", 45.8000.toString())
-            editor.apply()
+            editor.commit()
         }
-        forecastViewModel.getData()
-//
-//        forecastViewModel.hasNetwork.observe(this, Observer{
-//            t->
-//            if (t){
+
+        forecastViewModel.hasNetwork.observe(this, Observer{
+            hasConnection->
+            if (hasConnection){
                 Log.d(TAG, "ima mreže")
                 noNetworkLayout.visibility = View.INVISIBLE
 
@@ -53,26 +53,23 @@ class MainActivity : AppCompatActivity() {
                         .add(R.id.fragment_forecast, ForecastScreenFragment(), "forecastFragment")
                         .commit()
                 }
-//            } else {
-//                Log.d(TAG, "nema mreže")
-//                noNetworkLayout.visibility = View.VISIBLE
-////                if (savedInstanceState != null) {
-//                    supportFragmentManager.beginTransaction()
-//                        .hide(supportFragmentManager.findFragmentByTag("mainFragment")!!)
-//                        .hide(supportFragmentManager.findFragmentByTag("forecastFragment")!!)
-//                        .commit()
-////                }
-//            }
-//
-//        })
+            } else {
+                Log.d(TAG, "nema mreže")
+                noNetworkLayout.visibility = View.VISIBLE
+                if (savedInstanceState != null) {
+                    supportFragmentManager.beginTransaction()
+                        .hide(supportFragmentManager.findFragmentByTag("mainFragment")!!)
+                        .hide(supportFragmentManager.findFragmentByTag("forecastFragment")!!)
+                        .commit()
+                }
+//                forecastViewModel.getCurrentWeatherCount()?.observe(this, Observer {
+//                        count->
+//                    if (count!=0 && !hasConnection) forecastViewModel.getData()
+//                })
 
-        forecastViewModel.getCurrentWeatherCount()?.observe(this, Observer {
-                t->
-            editor.putBoolean("IS_EMPTY", t == 0)
+            }
 
         })
-
-
 
 
 
