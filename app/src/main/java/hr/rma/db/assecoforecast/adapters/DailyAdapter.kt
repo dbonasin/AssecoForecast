@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import hr.rma.db.assecoforecast.R
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import hr.rma.db.assecoforecast.R
-import hr.rma.db.assecoforecast.database.Daily
+import hr.rma.db.assecoforecast.data.models.Daily
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,15 +18,6 @@ import java.util.*
 class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
 
         private var DailyList: List<Daily?>? = ArrayList()
-
-//        override fun getItemViewType(position: Int): Int {
-//            val daily: Daily = DailyList!![position]
-//            return if (daily.getSenderID().equals(mUsrName)) {
-//                VIEW_TYPE_MESSAGE_SENT
-//            } else {
-//                VIEW_TYPE_MESSAGE_RECEIVED
-//            }
-//        }
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
@@ -54,17 +45,17 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
 
         class DailyWeatherHolder(itemView: View) :
             RecyclerView.ViewHolder(itemView){
-            var tvNameOfDay: TextView? = null
-            var tvTemperature: TextView? = null
-            var tvHumidity: TextView? = null
-            var tvMaxTemp: TextView? = null
-            var tvMinTemp: TextView? = null
-            var ivWeather: ImageView? = null
+            private val tvNameOfDay: TextView? = itemView.findViewById(R.id.tv_day_hour)
+            private val tvTemperature: TextView = itemView.findViewById(R.id.tv_estimated_temperature)
+            private val tvHumidity: TextView = itemView.findViewById(R.id.tv_humidity)
+            private val tvMaxTemp: TextView = itemView.findViewById(R.id.tv_max_temp)
+            private val tvMinTemp: TextView = itemView.findViewById(R.id.tv_min_temp)
+            private val ivWeather: ImageView = itemView.findViewById(R.id.iv_card_weather_icon)
+
 
             fun bind(daily: Daily?) {
-                val UNIX_TO_JAVA = 1000
                 val outFormat = SimpleDateFormat("EEEE")
-                val ts: Date = Timestamp(daily?.dt!!.toLong() * UNIX_TO_JAVA)
+                val ts: Date = Timestamp(daily?.dt!!)
                 val day = outFormat.format(ts)
 
                 val options: RequestOptions = RequestOptions()
@@ -81,29 +72,17 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyWeatherHolder?>() {
 
                 Glide.with(itemView.context).load(imageURL).apply(options)
                     .placeholder(circularProgressDrawable)
-                    .into(ivWeather!!)
+                    .into(ivWeather)
 
                 tvNameOfDay?.text = day
                 var strTmp = daily.dayTemp.toString() + "°C"
                 val strHum = daily.dayHumidity.toString() + "%"
-                tvTemperature?.text = strTmp
-                tvHumidity?.text = strHum
+                tvTemperature.text = strTmp
+                tvHumidity.text = strHum
                 strTmp = daily.maxTemp.toString() + "°C"
-                tvMaxTemp?.text = strTmp
+                tvMaxTemp.text = strTmp
                 strTmp = daily.minTemp.toString() + "°C"
-                tvMinTemp?.text = strTmp
-            }
-
-            init {
-                //Ovdje naći i staviti textviewove u samom itemu
-//                tvMsgRec = itemView.findViewById(R.id.tv_rec_message_body)
-//                tvTimeMsgRec = itemView.findViewById(R.id.tv_rec_message_time)
-                tvNameOfDay = itemView.findViewById(R.id.tv_day_hour)
-                tvTemperature = itemView.findViewById(R.id.tv_estimated_temperature)
-                tvHumidity = itemView.findViewById(R.id.tv_humidity)
-                tvMaxTemp = itemView.findViewById(R.id.tv_max_temp)
-                tvMinTemp = itemView.findViewById(R.id.tv_min_temp)
-                ivWeather = itemView.findViewById(R.id.iv_card_weather_icon)
+                tvMinTemp.text = strTmp
             }
         }
 

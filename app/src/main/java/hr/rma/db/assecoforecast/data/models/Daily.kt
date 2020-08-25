@@ -1,11 +1,11 @@
-package hr.rma.db.assecoforecast.database
+package hr.rma.db.assecoforecast.data.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "daily")
-class Daily(day : Int, dayTemp : Double, minTemp : Double, maxTemp : Double, dayHumidity : Double, clouds : Double, dt: Double, icon: String) {
+class Daily(day : Int, dayTemp : Double, minTemp : Double, maxTemp : Double, dayHumidity : Double, clouds : Double, dt: Long, icon: String) {
     @PrimaryKey(autoGenerate = false)
     var day : Int = 0
     @ColumnInfo(name = "current_temp")
@@ -21,7 +21,7 @@ class Daily(day : Int, dayTemp : Double, minTemp : Double, maxTemp : Double, day
 
     //    Date
     @ColumnInfo(name = "date")
-    var dt: Double? = null
+    var dt: Long? = null
 
     //    weather icon
     @ColumnInfo(name = "icon")

@@ -1,7 +1,10 @@
-package hr.rma.db.assecoforecast.database
+package hr.rma.db.assecoforecast.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import hr.rma.db.assecoforecast.data.models.Current
+import hr.rma.db.assecoforecast.data.models.Daily
+import hr.rma.db.assecoforecast.data.models.Hourly
 
 
 @Dao
@@ -18,23 +21,14 @@ interface ForecastDao {
     @Query("SELECT * FROM hourly")
     fun getHourlyWeather(): LiveData<List<Hourly?>?>?
 
-    @Insert
-    fun insertCurrentWeather(weather: Current?)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCurrentWeather(vararg weather: Current)
 
-    @Insert
-    fun insertDailyWeather(vararg weather: Daily?)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertDailyWeather(vararg weather: Daily)
 
-    @Insert
-    fun insertHourlyWeather(vararg weather: Hourly?)
-
-    @Update
-    fun updateCurrentWeather(weather: Current?)
-
-    @Update
-    fun updateDailyWeather(vararg weather: Daily?)
-
-    @Update
-    fun updateHourlyWeather(vararg weather: Hourly?)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertHourlyWeather(vararg weather: Hourly)
 
     @Query("DELETE FROM current" )
     fun deleteCurrent()

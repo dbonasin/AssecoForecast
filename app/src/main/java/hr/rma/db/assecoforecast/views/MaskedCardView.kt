@@ -1,4 +1,4 @@
-package hr.rma.db.assecoforecast.views
+package hr.riteh.db.assecotest.views
 
 import android.content.Context
 import android.graphics.Canvas

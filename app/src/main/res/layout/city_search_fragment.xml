@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_city_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,19 +18,21 @@
             android:layout_marginHorizontal="4dp"
             android:layout_marginVertical="2dp"
             android:background="@color/sky_blue_700"
+            android:contentDescription="@string/back_button"
             android:src="@drawable/abc_vector_test"
-            android:tint="@color/sky_blue_500" />
+            android:tint="@color/sky_blue_500"
+            tools:ignore="PrivateResource" />
 
         <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/title_list_of_cities"
-        android:textColor="@color/sky_blue_500"
-        android:textSize="32sp"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/title_list_of_cities"
+            android:textColor="@color/sky_blue_500"
+            android:textSize="32sp"/>
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputEditText

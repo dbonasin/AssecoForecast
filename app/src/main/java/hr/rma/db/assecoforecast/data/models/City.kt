@@ -1,4 +1,4 @@
-package hr.rma.db.assecoforecast.database
+package hr.rma.db.assecoforecast.data.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

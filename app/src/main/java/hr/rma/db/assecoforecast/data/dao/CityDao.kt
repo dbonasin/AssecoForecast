@@ -1,10 +1,9 @@
-package hr.rma.db.assecoforecast.database
+package hr.rma.db.assecoforecast.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
 import androidx.room.Query
+import hr.rma.db.assecoforecast.data.models.City
 
 @Dao
 interface CityDao {

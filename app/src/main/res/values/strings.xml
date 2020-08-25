@@ -5,7 +5,15 @@
     <string name="title_48_hour_forcast">48 hour forcast</string>
     <string name="title_7_day_forcast">7 day forcast</string>
     <string name="title_list_of_cities">List of Cities</string>
-    <string name="search_cities">Search cities...</string>
+    <string name="search_cities">Search cities…</string>
     <string name="no_network_warning">No network</string>
     <string name="loading">Loading</string>
+    <string name="current_temperature">Current temperature</string>
+    <string name="current_humidity">Current humidity</string>
+    <string name="change_city_btn">Change city</string>
+    <string name="back_button">Back button</string>
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="maximum_temperature">Maximum temperature</string>
+    <string name="minimum_temperature">Minimum temperature</string>
 </resources>
